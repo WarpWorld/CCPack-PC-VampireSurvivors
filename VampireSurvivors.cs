@@ -16,7 +16,7 @@ namespace CrowdControl.Games.Packs
 
         public VampireSurvivors(IPlayer player, Func<CrowdControlBlock, bool> responseHandler, Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler) { }
 
-        public override Game Game { get; } = new(174, "Vampire Survivors Randomizer", "VampireSurvivors", "PC", ConnectorType.SimpleWebsocketServerConnector);
+        public override Game Game { get; } = new(174, "Vampire Survivors", "VampireSurvivors", "PC", ConnectorType.SimpleWebsocketServerConnector);
 
         public override List<Effect> Effects => new()
         {
@@ -149,6 +149,7 @@ namespace CrowdControl.Games.Packs
             // new("Out of Bounds", $"coldexplosion", ItemKind.Usable, "item"),
             // new("Divine Bloodline", $"bloodline", ItemKind.Usable, "item")
         };
+
         public override List<ItemType> ItemTypes => new()
         {
             new("Basic Weapon", "item", ItemType.Subtype.ItemList),
