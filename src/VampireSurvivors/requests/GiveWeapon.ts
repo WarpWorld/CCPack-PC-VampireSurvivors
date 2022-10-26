@@ -20,14 +20,22 @@ export class GiveWeapon extends CrowdControlInstantEffectRequest {
     const hasWeapon = Game.Core.Weapons.find((weapon) => weapon.bulletType === weaponID)
     //if (hasWeapon) return { status: RESPONSE_STATUS.FAILURE }
 
+    
     if ( hasWeapon ) {
+      const originalLevel = hasWeapon.level;
       Game.Core.LevelWeaponUp(weaponID)
+
+      if ( hasWeapon.level > originalLevel ) {
+        return { status: RESPONSE_STATUS.SUCCESS }      
+      } else {
+        return { status: RESPONSE_STATUS.FAILURE }      
+      }
+      
     } else {
       Game.Core.AddWeapon(weaponID)
+      return { status: RESPONSE_STATUS.SUCCESS }
     }
 
     
-
-    return { status: RESPONSE_STATUS.SUCCESS }
   }
 }
