@@ -1,6 +1,6 @@
-import { readFileSync, writeFileSync } from 'fs'
-import { resolve } from 'path'
-const { origin } = new URL(import.meta.url)
+import { readFileSync } from 'fs'
+import { resolve, dirname } from 'path'
+const { origin, pathname } = new URL(import.meta.url)
 export const { version } = JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json')).toString())
 
 type Patch = {
@@ -29,7 +29,8 @@ const writeGame = (code: string) => {
 }
 
 export const bootstrap = async () => {
-  const patchURL = `${origin}/${version.replace(/\./g, '_')}.json`
+  const dirName = dirname(pathname)
+  const patchURL = `${origin}${dirName}/${version.replace(/\./g, '_')}.json`
   const response = await fetch(patchURL)
 
   if (!response.ok) {

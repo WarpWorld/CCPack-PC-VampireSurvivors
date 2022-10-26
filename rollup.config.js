@@ -4,7 +4,7 @@ import { obfuscator } from 'rollup-obfuscator'
 import copy from 'rollup-plugin-copy'
 
 const { PRODUCTION } = process.env
-const BASE_URL = PRODUCTION ? 'https://crowd-control-mods.s3.amazonaws.com/VampireSurvivors' : 'http://localhost:8080'
+const BASE_URL = PRODUCTION ? 'https://crowd-control-mods.s3.amazonaws.com/VampireSurvivors' : 'http://localhost:8080/VampireSurvivors'
 const OUTPUT_FILENAME = 'crowd-control-bootstrap.js'
 
 /**
@@ -13,7 +13,7 @@ const OUTPUT_FILENAME = 'crowd-control-bootstrap.js'
 const config = {
   input: 'src/index.ts',
   output: {
-    file: `dist/${OUTPUT_FILENAME}`,
+    file: `dist/VampireSurvivors/${OUTPUT_FILENAME}`,
     format: 'cjs',
   },
   plugins: [
@@ -21,7 +21,7 @@ const config = {
       targets: [
         {
           src: 'patches/*',
-          dest: 'dist/',
+          dest: 'dist/VampireSurvivors',
           transform: (contents) => {
             if (!PRODUCTION) return contents
             const patches = JSON.parse(contents.toString()).filter(({ debug }) => !debug)
