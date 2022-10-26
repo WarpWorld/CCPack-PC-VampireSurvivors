@@ -1,0 +1,36 @@
+{
+  "name": "@crowdcontrol/pc-vampiresurvivors",
+  "version": "1.0.0",
+  "description": "",
+  "main": "convert.js",
+  "type": "module",
+  "scripts": {
+    "serve": "servor ./dist --reload",
+    "convert": "node scripts/convert.js",
+    "dev": "rollup -c -w",
+    "compile": "rollup -c",
+    "build": "npm run convert && rollup -c --environment PRODUCTION",
+    "build:dev": "rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.warp.world:crowdcontrol-packs/PC-VampireSurvivors.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-json": "^5.0.1",
+    "@rollup/plugin-typescript": "^9.0.2",
+    "@swc/core": "^1.3.10",
+    "@types/node": "^18.11.3",
+    "javascript-obfuscator": "^4.0.0",
+    "mkdirp": "^1.0.4",
+    "rollup": "^3.2.3",
+    "rollup-obfuscator": "^3.0.1",
+    "rollup-plugin-copy": "^3.4.0",
+    "servor": "^4.0.2",
+    "tslib": "^2.4.0",
+    "typescript": "^4.8.4"
+  }
+}

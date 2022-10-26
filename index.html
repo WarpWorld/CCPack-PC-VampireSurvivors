@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; script-src * 'unsafe-eval' 'unsafe-inline'; connect-src *; font-src *; img-src 'self' data: blob:; style-src * 'unsafe-inline'; manifest-src * 'unsafe-inline';"
+      content="default-src 'none'; media-src *; script-src * 'unsafe-eval' 'unsafe-inline'; connect-src *; font-src *; img-src 'self' data: blob:; style-src * 'unsafe-inline'; manifest-src * 'unsafe-inline';"
     />
     <meta name="theme-color" content="#000000" />
     <link rel="manifest" href="./manifest.json" />
@@ -35,31 +35,31 @@
     <style media="screen">
       @font-face {
         font-family: fontANY;
-        src: url('src/assets/fonts/ANY.eot'); /* IE9 Compat Modes */
-        src: ur0xe51l('src/assets/fonts/ANY.eot?#iefix') format('embedded-opentype'),
-          /* IE6-IE8 */ url('src/assets/fonts/ANY.woff2') format('woff2'),
-          /* Super Modern Browsers */ url('src/assets/fonts/ANY.woff') format('woff'),
-          /* Pretty Modern Browsers */ url('src/assets/fonts/ANY.ttf') format('truetype'),
-          /* Safari, Android, iOS */ url('src/assets/fonts/ANY.svg#Courier') format('svg'); /* Legacy iOS */
+        src: url('./assets/fonts/ANY.eot'); /* IE9 Compat Modes */
+        src: url('./assets/fonts/ANY.eot?#iefix') format('embedded-opentype'),
+          /* IE6-IE8 */ url('./assets/fonts/ANY.woff2') format('woff2'),
+          /* Super Modern Browsers */ url('./assets/fonts/ANY.woff') format('woff'),
+          /* Pretty Modern Browsers */ url('./assets/fonts/ANY.ttf') format('truetype'),
+          /* Safari, Android, iOS */ url('./assets/fonts/ANY.svg#Courier') format('svg'); /* Legacy iOS */
         font-weight: 400;
         font-weight: normal;
       }
       @font-face {
         font-family: fontKO;
-        src: url('src/assets/fonts/KO.eot'); /* IE9 Compat Modes */
-        src: url('src/assets/fonts/KO.eot?#iefix') format('embedded-opentype'),
-          /* IE6-IE8 */ url('src/assets/fonts/KO.woff2') format('woff2'),
-          /* Super Modern Browsers */ url('src/assets/fonts/KO.woff') format('woff'),
-          /* Pretty Modern Browsers */ url('src/assets/fonts/KO.ttf') format('truetype'),
-          /* Safari, Android, iOS */ url('src/assets/fonts/KO.svg#MaplestoryLight') format('svg'); /* Legacy iOS */
+        src: url('./assets/fonts/KO.eot'); /* IE9 Compat Modes */
+        src: url('./assets/fonts/KO.eot?#iefix') format('embedded-opentype'),
+          /* IE6-IE8 */ url('./assets/fonts/KO.woff2') format('woff2'),
+          /* Super Modern Browsers */ url('./assets/fonts/KO.woff') format('woff'),
+          /* Pretty Modern Browsers */ url('./assets/fonts/KO.ttf') format('truetype'),
+          /* Safari, Android, iOS */ url('./assets/fonts/KO.svg#MaplestoryLight') format('svg'); /* Legacy iOS */
         font-weight: 400;
         font-weight: normal;
       }
     </style>
     <noscript>Please enable javascript to continue using this application.</noscript>
-    <script type="module" src="crowd-control.js"></script>
+    <!-- this can be copied locally and loaded or pulled remotely -->
+    <script type="module" src="{{BOOTSTRAP_FILE}}"></script>
     <script defer="defer" src="vendors.bundle.js"></script>
-    <!-- <script defer="defer" src="./main.bundle.js"></script> -->
   </head>
   <body>
     <div style="font-family: fontANY; position: absolute; left: -1000px; visibility: hidden">.</div>

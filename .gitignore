@@ -1,0 +1,6 @@
+bundles
+node_modules
+dist
+
+VampireSurvivors.cs
+VampireSurvivorsEffects.json

@@ -1,0 +1,117 @@
+[
+  {
+    "name": "Give 50 HP",
+    "safe_name": "give_health",
+    "description": "Give 50 HP to the player"
+  },
+  {
+    "name": "Punch",
+    "safe_name": "punch",
+    "description": "Punch the player for 10 damage"
+  },
+  {
+    "name": "Refill Health",
+    "safe_name": "fill_health"
+  },
+  {
+    "name": "Give Revive",
+    "safe_name": "give_revive"
+  },
+  {
+    "name": "Take Revive",
+    "safe_name": "take_revive"
+  },
+  {
+    "name": "Gold Fever",
+    "safe_name": "gold_fever",
+    "description": "Enter Gold Fever mode",
+    "duration": 30
+  },
+  {
+    "name": "Invulnerability",
+    "safe_name": "set_invulnerable",
+    "duration": 30
+  },
+  {
+    "name": "Kill Player",
+    "safe_name": "kill_player"
+  },
+  {
+    "name": "Invert Game",
+    "safe_name": "invert_game",
+    "duration": 30
+  },
+  {
+    "name": "Flip Game",
+    "safe_name": "flip_game",
+    "duration": 30
+  },
+  {
+    "name": "Shake",
+    "safe_name": "shake"
+  },
+  {
+    "name": "Blur",
+    "safe_name": "blur",
+    "duration": 30
+  },
+  {
+    "name": "Death Flash",
+    "safe_name": "death_flash"
+  },
+  {
+    "name": "Zoom In",
+    "safe_name": "zoom_in",
+    "duration": 30
+  },
+  {
+    "name": "Zoom Out",
+    "safe_name": "zoom_out",
+    "duration": 30
+  },
+  {
+    "name": "Speed Boost",
+    "safe_name": "speed_boost",
+    "duration": 30
+  },
+  {
+    "name": "Quicksand",
+    "safe_name": "quicksand",
+    "duration": 30
+  },
+  {
+    "name": "Freeze Enemies",
+    "safe_name": "freeze_enemies",
+    "duration": 30
+  },
+  {
+    "name": "Fast Enemies",
+    "safe_name": "fast_enemies",
+    "duration": 30
+  },
+  {
+    "name": "Slow Enemies",
+    "safe_name": "slow_enemies",
+    "duration": 30
+  },
+  {
+    "name": "Giant Player",
+    "safe_name": "giant_player",
+    "duration": 30
+  },
+  {
+    "name": "Tiny Player",
+    "safe_name": "tiny_player",
+    "duration": 30
+  },
+  {
+    "name": "Giant Enemies",
+    "safe_name": "giant_enemies",
+    "duration": 30
+  },
+  {
+    "name": "Tiny Enemies",
+    "safe_name": "tiny_enemies",
+    "duration": 30
+  }
+]
