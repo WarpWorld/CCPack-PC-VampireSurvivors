@@ -18,9 +18,15 @@ export class GiveWeapon extends CrowdControlInstantEffectRequest {
     const PREFIX = GiveWeapon.code.replace('*', '')
     const weaponID = code.replace(PREFIX, '').toUpperCase()
     const hasWeapon = Game.Core.Weapons.find((weapon) => weapon.bulletType === weaponID)
-    if (hasWeapon) return { status: RESPONSE_STATUS.FAILURE }
+    //if (hasWeapon) return { status: RESPONSE_STATUS.FAILURE }
 
-    Game.Core.AddWeapon(weaponID)
+    if ( hasWeapon ) {
+      Game.Core.LevelWeaponUp(weaponID)
+    } else {
+      Game.Core.AddWeapon(weaponID)
+    }
+
+    
 
     return { status: RESPONSE_STATUS.SUCCESS }
   }

@@ -1,3 +1,5 @@
+import type internal from 'stream'
+
 export { bootstrap } from './bootstrap'
 export * from './VampireSurvivorsCrowdControl'
 
@@ -105,10 +107,14 @@ export type VampireSurvivorsGame = {
   Core: {
     AddWeapon: (weapon: string) => void
     CurrentBGM: string
+    GetWeaponLevel: (level: number) => void
     RemoveWeapon: (weapon: string) => void
+    LevelWeaponUp: (weapon: string) => void
     MakePickup: (x: number, y: number, item: string) => VampireSurvivorsPhaserEntity
     Weapons: {
-      bulletType: string
+      bulletType: string,
+      level: number,
+      amount: number
     }[]
     GoldFever: {
       defaultCap: number
