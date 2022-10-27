@@ -26,14 +26,13 @@ export class Blur extends CrowdControlTimedEffectRequest {
     const clearFilter = () => (gameEl.style.filter = '')
     const applyFilter = () => (gameEl.style.filter = BLUR_FILTER)
 
-    let timeout: ReturnType<typeof addTimeout> | undefined
     const stop = (this.stop = () => {
-      timeout?.clear()
+      this.timeout?.clear()
       clearFilter()
     })
 
     applyFilter()
-    timeout = addTimeout(this, () => stop(), duration, {
+    this.timeout = addTimeout(this, () => stop(), duration, {
       onPause: () => clearFilter(),
       onResume: () => applyFilter(),
     })

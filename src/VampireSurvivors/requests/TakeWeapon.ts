@@ -22,16 +22,16 @@ export class TakeWeapon extends CrowdControlInstantEffectRequest {
 
     Game.Core.RemoveWeapon(weaponID) //remove the weapon, we'll always need to do this
 
-    setTimeout(function() { 
-      if ( hasWeapon.level === 2 ) {
+    setTimeout(function () {
+      if (hasWeapon.level === 2) {
         Game.Core.AddWeapon(weaponID) //if the weapon level was 2 then just adding it back in will make it a level 1
-      } else if ( hasWeapon.level >= 3 ) {
+      } else if (hasWeapon.level >= 3) {
         Game.Core.AddWeapon(weaponID) //add back the weapon
-        for (let i = 1; i <= hasWeapon.level-2; i++) {
+        for (let i = 1; i <= hasWeapon.level - 2; i++) {
           Game.Core.LevelWeaponUp(weaponID) //upgrade it the right amount of times so that it is 1 less than it used to be.
         }
       }
-    },10) //timeout is set because if we do the remove and add right away it doesnt seem to work. could maybe move this to an await?
+    }, 10) //timeout is set because if we do the remove and add right away it doesnt seem to work. could maybe move this to an await?
 
     return { status: RESPONSE_STATUS.SUCCESS }
   }

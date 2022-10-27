@@ -2,7 +2,7 @@ import type { VampireSurvivorsEnemyGroupClass, VampireSurvivorsGame } from '.'
 import EffectsMap from '../../VampireSurvivorsEffects.json'
 import { createCrowdControlWebsocketClient, getEffectRequestHandlers } from '../CrowdControl'
 import * as Effects from './requests'
-import { getActiveEffects } from './VampireSurvivorsEffectCollection'
+import { getActiveEffects, setSocketRequestHandlers } from './VampireSurvivorsEffectCollection'
 import { getGame, init as initGameState } from './VampireSurvivorsGameState'
 import { addToOverlay, initOverlay } from './VampireSurvivorsOverlay'
 import { stateMonitor } from './VampireSurvivorStateMonitor'
@@ -24,14 +24,16 @@ const SocketClient = createCrowdControlWebsocketClient(onEffectStart, onEffectSt
   onEffectRequestSuccess: (request) => {
     const { viewer, code } = request
     if (!viewer || !code) return
-    console.log("effect sucess", request)
+
     const effectName = EffectsMap[code as keyof typeof EffectsMap]
     if (!effectName) return
     addToOverlay(`${request.viewer} sent ${effectName}`)
   },
-  onEffectRequest: (request) => {
-    
-  },
+})
+
+setSocketRequestHandlers({
+  sendPauseRequestHandler: SocketClient.sendPauseRequest,
+  sendResumeRequestHandler: SocketClient.sendResumeRequest,
 })
 
 // Called every time the game inits (on first start and after each death)

@@ -34,14 +34,13 @@ export class FlipGame extends CrowdControlTimedEffectRequest {
       canvasEl.style.transform = transforms.join(' ')
     }
 
-    let timeout: ReturnType<typeof addTimeout> | undefined
     const stop = (this.stop = () => {
-      timeout?.clear()
+      this.timeout?.clear()
       clearFilter()
     })
 
     applyFilter()
-    timeout = addTimeout(this, () => stop(), duration, {
+    this.timeout = addTimeout(this, () => stop(), duration, {
       onPause: () => clearFilter(),
       onResume: () => applyFilter(),
     })

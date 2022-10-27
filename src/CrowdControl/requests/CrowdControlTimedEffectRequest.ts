@@ -1,9 +1,11 @@
-import type { CrowdControlEffectClass, CrowdControlEffectRequest } from '.'
+import type { CrowdControlEffectClass } from '.'
+import type { addTimeout } from '../../VampireSurvivors/VampireSurvivorsEffectCollection'
 import type { CrowdControlEffectRequestHandler } from '../CrowdControlWebsocketClient'
 import { CrowdControlBaseEffectRequest } from './CrowdControlBaseEffectRequest'
 
 export abstract class CrowdControlTimedEffectRequest extends CrowdControlBaseEffectRequest {
   abstract start(): ReturnType<CrowdControlEffectRequestHandler>
+  timeout?: ReturnType<typeof addTimeout>
   stop(): void {}
   onGameStateUpdate(): void {}
 }

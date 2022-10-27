@@ -29,16 +29,16 @@ const writeGame = (code: string) => {
 }
 
 export const bootstrap = async () => {
-  const dirName = dirname(pathname)
-  const patchURL = `${origin}${dirName}/${version.replace(/\./g, '_')}.json`
-  const response = await fetch(patchURL)
-
-  if (!response.ok) {
-    loadOriginalGame()
-    return { success: false, message: `Failed to load patch for v${version}` }
-  }
-
   try {
+    const dirName = dirname(pathname)
+    const patchURL = `${origin}${dirName}/${version.replace(/\./g, '_')}.json`
+    const response = await fetch(patchURL)
+
+    if (!response.ok) {
+      loadOriginalGame()
+      return { success: false, message: `Failed to load patch for v${version}` }
+    }
+
     const patches = (await response.json()) as Patch[]
     let patched = readFileSync(resolve(__dirname, SOURCE_FILE)).toString()
     patches.forEach((patch) => {
@@ -55,6 +55,8 @@ export const bootstrap = async () => {
     requestAnimationFrame(() => writeGame(patched))
     return { success: true }
   } catch (e) {
-    return { success: false, message: e instanceof Error ? e.message : 'Unknown Error' }
+    const message = e instanceof Error ? e.message : 'Unknown Error'
+    alert(`Error Patching file: ${message}`)
+    return { success: false, message }
   }
 }

@@ -25,14 +25,13 @@ export abstract class ChangeCameraZoomEffectRequest extends CrowdControlTimedEff
       ChangeCameraZoomEffectRequest.IS_ACTIVE = true
     }
 
-    let timeout: ReturnType<typeof addTimeout> | undefined
     const stop = (this.stop = () => {
       clearEffect()
-      timeout?.clear()
+      this.timeout?.clear()
     })
 
     applyEffect()
-    timeout = addTimeout(this, () => stop(), duration)
+    this.timeout = addTimeout(this, () => stop(), duration)
     return { status: RESPONSE_STATUS.SUCCESS, timeRemaining: duration }
   }
 }

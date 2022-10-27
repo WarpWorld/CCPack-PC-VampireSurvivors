@@ -6,6 +6,7 @@ type Timeout = {
   complete: boolean
   start: number
   end: number
+  remaining: number
   onTick?: () => void
   onPause?: (remaining: number) => void
   onResume?: (remaining: number) => void
@@ -40,6 +41,7 @@ export const createTimeoutCollection = (interval = 500) => {
       },
       start: now,
       end: now + delay,
+      remaining: delay,
       onPause,
       onResume,
       onTick,
@@ -54,7 +56,8 @@ export const createTimeoutCollection = (interval = 500) => {
 
     timeouts.forEach((timeout) => {
       if (timeout.complete) return
-      timeout.onPause?.(timeout.end - now)
+      timeout.remaining = timeout.end - now
+      timeout.onPause?.(timeout.remaining)
     })
     pausedAt = now
   }
@@ -69,7 +72,8 @@ export const createTimeoutCollection = (interval = 500) => {
     timeouts.forEach((timeout) => {
       if (timeout.complete) return
       timeout.end += delta
-      timeout.onResume?.(timeout.end - now)
+      timeout.remaining = timeout.end - now
+      timeout.onResume?.(timeout.remaining)
     })
   }
 

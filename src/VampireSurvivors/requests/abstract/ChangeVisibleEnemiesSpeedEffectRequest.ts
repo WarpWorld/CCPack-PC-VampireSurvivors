@@ -52,14 +52,13 @@ export abstract class ChangeVisibleEnemiesSpeedEffectRequest extends CrowdContro
       enemies.forEach(applyEffectToEnemy)
     }
 
-    let timeout: ReturnType<typeof addTimeout> | undefined
     const stop = (this.stop = () => {
       clearEffect()
-      timeout?.clear()
+      this.timeout?.clear()
     })
 
     applyEffect()
-    timeout = addTimeout(this, () => stop(), duration, {
+    this.timeout = addTimeout(this, () => stop(), duration, {
       onTick: () => updateEffect(),
     })
 
