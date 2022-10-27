@@ -53,11 +53,11 @@ const meta = ({ duration, description }) => {
 }
 
 const effectsMap = new Map()
-const createEffect = ({ name, key, ...rest }, { prefix, folder, allowDurational } = {}) => {
+const createEffect = ({ name, key, ...rest }, { prefix, folder, allowDurational, overlayPrefix } = {}) => {
   if (!allowDurational) delete rest.duration
   key = `${prefix ? `${prefix}_` : ''}${key.toLowerCase()}`
 
-  effectsMap.set(key, name)
+  effectsMap.set(key, { name, overlayPrefix })
   return `${indent}new("${name}", "${key}"${folder ? `, "${folder}"` : ''})${meta(rest)}`
 }
 
@@ -80,13 +80,13 @@ const generalEffects = general
 const giveWeaponEffects = Object.entries(weapons)
   .map(([key, value]) => ({ ...value[0], key }))
   .sort((a, b) => a.name.localeCompare(b.name))
-  .map((effect) => createEffect(effect, { prefix: 'giveweapon', folder: 'give_weapon' }))
+  .map((effect) => createEffect(effect, { prefix: 'giveweapon', folder: 'give_weapon', overlayPrefix: 'Give' }))
   .join(',\r')
 
 const takeWeaponEffects = Object.entries(weapons)
   .map(([key, value]) => ({ ...value[0], key }))
   .sort((a, b) => a.name.localeCompare(b.name))
-  .map((effect) => createEffect(effect, { prefix: 'takeweapon', folder: 'take_weapon' }))
+  .map((effect) => createEffect(effect, { prefix: 'takeweapon', folder: 'take_weapon', overlayPrefix: 'Take' }))
   .join(',\r')
 
 const placeItemEffects = Object.entries(items)
@@ -96,7 +96,7 @@ const placeItemEffects = Object.entries(items)
   })
   .filter(({ key }) => spawnableItems.includes(key))
   .sort((a, b) => a.name.localeCompare(b.name))
-  .map((effect) => createEffect(effect, { prefix: 'placeitem', folder: 'place_item' }))
+  .map((effect) => createEffect(effect, { prefix: 'placeitem', folder: 'place_item', overlayPrefix: 'Place' }))
   .join(',\r')
 
 const playMusicEffects = musicLibrary
@@ -123,7 +123,7 @@ const spawnEnemyEffects = Object.entries(enemies)
     return { ...value[0], name, key, description }
   })
   .sort((a, b) => a.name.localeCompare(b.name))
-  .map((effect) => createEffect(effect, { prefix: 'spawnenemy', folder: 'spawn_enemy' }))
+  .map((effect) => createEffect(effect, { prefix: 'spawnenemy', folder: 'spawn_enemy', overlayPrefix: 'Spawn' }))
   .join(',\r')
 
 const spawnBossEffects = Object.entries(enemies)
@@ -138,7 +138,7 @@ const spawnBossEffects = Object.entries(enemies)
     return { ...value[0], name, key, description }
   })
   .sort((a, b) => a.name.localeCompare(b.name))
-  .map((effect) => createEffect(effect, { prefix: 'spawnboss', folder: 'spawn_boss' }))
+  .map((effect) => createEffect(effect, { prefix: 'spawnboss', folder: 'spawn_boss', overlayPrefix: 'Spawn Boss' }))
   .join(',\r')
 
 const pack = `${header}

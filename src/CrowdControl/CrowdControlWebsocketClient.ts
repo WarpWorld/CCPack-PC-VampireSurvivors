@@ -54,7 +54,7 @@ export type CrowdControlEffectRequestBody = {
 type OptionalParameters = {
   url?: string
   onEffectRequest?: (requestBody: CrowdControlEffectRequestBody) => void
-  onEffectRequestSuccess?: (requestBody: CrowdControlEffectRequestBody) => void
+  onEffectRequestSuccess?: (requestBody: CrowdControlEffectRequestBody, response: CrowdControlEffectResponse) => void
   onSocketOpen?: (event: Event) => void
   onSocketClose?: (event: Event) => void
   onSocketMessage?: (event: Event) => void
@@ -67,6 +67,9 @@ export type CrowdControlEffectResponse = {
   status: typeof RESPONSE_STATUS[keyof typeof RESPONSE_STATUS]
   timeRemaining?: number
   message?: string
+  meta?: {
+    [key: string]: string
+  }
 }
 
 export type CrowdControlEffectRequestHandler = (
@@ -143,8 +146,9 @@ export const createCrowdControlWebsocketClient = (
 
       if (type === EFFECT_REQUEST_TYPE.START) {
         onEffectRequest?.(request)
-        if (response.status === RESPONSE_STATUS.SUCCESS) onEffectRequestSuccess?.(request)
+        if (response.status === RESPONSE_STATUS.SUCCESS) onEffectRequestSuccess?.(request, response)
       }
+      delete response.meta
       socket.send(JSON.stringify(response))
     } catch (error) {
       log('Error parsing socket message', error)

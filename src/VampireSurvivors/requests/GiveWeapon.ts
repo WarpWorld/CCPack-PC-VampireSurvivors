@@ -6,7 +6,7 @@ export class GiveWeapon extends CrowdControlInstantEffectRequest {
   static override code = EFFECT_CODES.GIVE_WEAPON
   override code = GiveWeapon.code
 
-  override trigger() {
+  override trigger(): ReturnType<CrowdControlInstantEffectRequest['trigger']> {
     const Game = getGame()
     const isGamePaused = getIsGamePaused()
     const isPlayerDead = getIsPlayerDead()
@@ -17,15 +17,14 @@ export class GiveWeapon extends CrowdControlInstantEffectRequest {
 
     const PREFIX = GiveWeapon.code.replace('*', '')
     const weaponID = code.replace(PREFIX, '').toUpperCase()
-    const hasWeapon = Game.Core.Weapons.find((weapon) => weapon.bulletType === weaponID)
-    //if (hasWeapon) return { status: RESPONSE_STATUS.FAILURE }
+    const weapon = Game.Core.Weapons.find((weapon) => weapon.bulletType === weaponID)
 
-    if (hasWeapon) {
-      const originalLevel = hasWeapon.level
+    if (weapon) {
+      const originalLevel = weapon.level
       Game.Core.LevelWeaponUp(weaponID)
 
-      if (hasWeapon.level > originalLevel) {
-        return { status: RESPONSE_STATUS.SUCCESS }
+      if (weapon.level > originalLevel) {
+        return { status: RESPONSE_STATUS.SUCCESS, meta: { overlayPrefix: 'Upgrade' } }
       } else {
         return { status: RESPONSE_STATUS.FAILURE }
       }

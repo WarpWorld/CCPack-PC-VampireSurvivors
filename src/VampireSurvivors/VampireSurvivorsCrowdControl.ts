@@ -21,13 +21,18 @@ const { onEffectStart, onEffectStop } = getEffectRequestHandlers(Effects, getAct
 const SocketClient = createCrowdControlWebsocketClient(onEffectStart, onEffectStop, {
   onSocketOpen: () => addToOverlay('Crowd Control Ready'),
   onSocketClose: () => addToOverlay('Crowd Control Disconnected'),
-  onEffectRequestSuccess: (request) => {
+  onEffectRequestSuccess: (request, response) => {
     const { viewer, code } = request
     if (!viewer || !code) return
 
-    const effectName = EffectsMap[code as keyof typeof EffectsMap]
-    if (!effectName) return
-    addToOverlay(`${request.viewer} sent ${effectName}`)
+    const effectInfo = (EffectsMap as Record<string, Record<string, string>>)[code]
+    if (!effectInfo) return
+
+    const { name, overlayPrefix } = effectInfo
+    if (!name) return
+
+    const prefix = response.meta?.overlayPrefix || overlayPrefix
+    addToOverlay(`${request.viewer} sent ${prefix ? `${prefix} ` : ''}${name}`)
   },
 })
 
