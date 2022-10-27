@@ -222,7 +222,9 @@ export const createCrowdControlWebsocketClient = (
       if (!socket) return
 
       log('Sending resume for request with id', id, timeRemaining)
-      socket.send(JSON.stringify({ id, STATUS: RESPONSE_STATUS.RESUMED, timeRemaining }))
+      socket.send(
+        JSON.stringify({ id, STATUS: RESPONSE_STATUS.RESUMED, timeRemaining: timeRemaining > 0 ? timeRemaining : 0 })
+      )
     },
     get connected() {
       return socket?.CONNECTING || socket?.OPEN
