@@ -1,15 +1,15 @@
-import { CrowdControlEffectRequestHandler, CrowdControlTimedEffectRequest, RESPONSE_STATUS } from '../../CrowdControl'
-import { getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsGameState'
-import { addTimeout } from '../VampireSurvivorsEffectCollection'
+import { CrowdControlTimedEffectRequest, RESPONSE_STATUS } from '../../CrowdControl'
+import type { ICrowdControlTimedEffectRequest } from '../../CrowdControl/requests/CrowdControlTimedEffectRequest'
+import { getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsState'
 import { EFFECT_CODES } from './EffectCodes'
 
 const BLUR_FILTER = 'blur(20px)'
-export class Blur extends CrowdControlTimedEffectRequest {
+export class Blur extends CrowdControlTimedEffectRequest implements ICrowdControlTimedEffectRequest {
   static override code = EFFECT_CODES.BLUR
 
   override code = Blur.code
 
-  override start(): ReturnType<CrowdControlEffectRequestHandler> {
+  override start() {
     const isGamePaused = getIsGamePaused()
     const isPlayerDead = getIsPlayerDead()
     const { duration } = this.request
@@ -26,16 +26,11 @@ export class Blur extends CrowdControlTimedEffectRequest {
     const clearFilter = () => (gameEl.style.filter = '')
     const applyFilter = () => (gameEl.style.filter = BLUR_FILTER)
 
-    const stop = (this.stop = () => {
-      this.timeout?.clear()
-      clearFilter()
-    })
+    this.stop = () => clearFilter()
+    this.onPause = () => clearFilter()
+    this.onResume = () => applyFilter()
 
     applyFilter()
-    this.timeout = addTimeout(this, () => stop(), duration, {
-      onPause: () => clearFilter(),
-      onResume: () => applyFilter(),
-    })
 
     return { status: RESPONSE_STATUS.SUCCESS, timeRemaining: duration }
   }

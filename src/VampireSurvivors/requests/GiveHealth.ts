@@ -1,9 +1,10 @@
 import { CrowdControlInstantEffectRequest, RESPONSE_STATUS } from '../../CrowdControl'
-import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsGameState'
+import type { ICrowdControlInstantEffectRequest } from '../../CrowdControl/requests/CrowdControlInstantEffectRequest'
+import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsState'
 import { EFFECT_CODES } from './EffectCodes'
 
 const AMOUNT = 50
-export class GiveHealth extends CrowdControlInstantEffectRequest {
+export class GiveHealth extends CrowdControlInstantEffectRequest implements ICrowdControlInstantEffectRequest {
   static override code = EFFECT_CODES.GIVE_HEALTH
   override code = GiveHealth.code
 

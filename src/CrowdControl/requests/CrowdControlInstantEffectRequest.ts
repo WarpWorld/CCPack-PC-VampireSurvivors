@@ -1,17 +1,13 @@
-import type { CrowdControlEffectClass } from '.'
-import type { CrowdControlEffectRequestHandler } from '../CrowdControlWebsocketClient'
+import type { CrowdControlEffectRequestResponse } from '../CrowdControlWebSocketClient'
 import { CrowdControlBaseEffectRequest } from './CrowdControlBaseEffectRequest'
 
+export interface ICrowdControlInstantEffectRequest {
+  trigger(): Omit<CrowdControlEffectRequestResponse, 'id'>
+}
 export abstract class CrowdControlInstantEffectRequest extends CrowdControlBaseEffectRequest {
-  abstract trigger(): ReturnType<CrowdControlEffectRequestHandler>
+  abstract trigger(): Omit<CrowdControlEffectRequestResponse, 'id'>
 }
 
-export const isCrowdControlInstantEffectRequestClass = (
-  cls: CrowdControlEffectClass
-): cls is {
-  new (...args: ConstructorParameters<typeof CrowdControlInstantEffectRequest>): CrowdControlInstantEffectRequest
-  code: string
-  conflicts: string[]
-} => {
-  return cls.prototype instanceof CrowdControlInstantEffectRequest
-}
+export const isCrowdControlInstantEffectRequest = (
+  effectRequest: CrowdControlBaseEffectRequest
+): effectRequest is CrowdControlInstantEffectRequest => effectRequest instanceof CrowdControlInstantEffectRequest

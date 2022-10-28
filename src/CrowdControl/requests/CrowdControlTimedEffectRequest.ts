@@ -1,23 +1,17 @@
-import type { CrowdControlEffectClass } from '.'
-import type { addTimeout } from '../../VampireSurvivors/VampireSurvivorsEffectCollection'
-import type { CrowdControlEffectRequestHandler } from '../CrowdControlWebsocketClient'
 import { CrowdControlBaseEffectRequest } from './CrowdControlBaseEffectRequest'
 
-export abstract class CrowdControlTimedEffectRequest extends CrowdControlBaseEffectRequest {
-  abstract start(): ReturnType<CrowdControlEffectRequestHandler>
-  timeout?: ReturnType<typeof addTimeout>
-  stop(): void {}
-  onGameStateUpdate(): void {}
+import type { CrowdControlEffectRequestResponse } from '../CrowdControlWebSocketClient'
+export interface ICrowdControlTimedEffectRequest {
+  start(): Omit<CrowdControlEffectRequestResponse, 'id'>
+  stop(): void
 }
 
-export const isCrowdControlTimedEffectRequestClass = (
-  cls: CrowdControlEffectClass
-): cls is {
-  new (...args: ConstructorParameters<typeof CrowdControlTimedEffectRequest>): CrowdControlTimedEffectRequest
-  code: string
-  conflicts: string[]
-} => {
-  return cls.prototype instanceof CrowdControlTimedEffectRequest
+export abstract class CrowdControlTimedEffectRequest extends CrowdControlBaseEffectRequest {
+  abstract start(): Omit<CrowdControlEffectRequestResponse, 'id'>
+  stop(): void {}
+  onPause(): void {}
+  onResume(): void {}
+  onTick(): void {}
 }
 
 export const isCrowdControlTimedEffectRequest = (

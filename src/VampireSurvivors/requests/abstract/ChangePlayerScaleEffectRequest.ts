@@ -1,8 +1,11 @@
 import { CrowdControlTimedEffectRequest, RESPONSE_STATUS } from '../../../CrowdControl'
-import { getGame, getIsGamePaused, getIsPlayerDead } from '../../VampireSurvivorsGameState'
-import { addTimeout } from '../../VampireSurvivorsEffectCollection'
+import type { ICrowdControlTimedEffectRequest } from '../../../CrowdControl/requests/CrowdControlTimedEffectRequest'
+import { getGame, getIsGamePaused, getIsPlayerDead } from '../../VampireSurvivorsState'
 
-export abstract class ChangePlayerScaleEffectRequest extends CrowdControlTimedEffectRequest {
+export abstract class ChangePlayerScaleEffectRequest
+  extends CrowdControlTimedEffectRequest
+  implements ICrowdControlTimedEffectRequest
+{
   static IS_ACTIVE = false
   ratio = 1
 
@@ -16,23 +19,24 @@ export abstract class ChangePlayerScaleEffectRequest extends CrowdControlTimedEf
     if (isGamePaused || ChangePlayerScaleEffectRequest.IS_ACTIVE) return { status: RESPONSE_STATUS.RETRY }
 
     const clearEffect = () => {
-      Game.Core.Player.scale = Game.Core.Player.scale / this.ratio
+      if (Game.Core.Player.$originalScale) {
+        Game.Core.Player.scale = Game.Core.Player.$originalScale
+        delete Game.Core.Player.$originalScale
+      }
       ChangePlayerScaleEffectRequest.IS_ACTIVE = false
     }
 
     const applyEffect = () => {
+      if (Game.Core.Player.$originalScale) return { status: RESPONSE_STATUS.RETRY }
+
+      Game.Core.Player.$originalScale = Game.Core.Player.scale
       Game.Core.Player.scale = Game.Core.Player.scale * this.ratio
       ChangePlayerScaleEffectRequest.IS_ACTIVE = true
     }
 
-    let timeout: ReturnType<typeof addTimeout> | undefined
-    const stop = (this.stop = () => {
-      clearEffect()
-      this.timeout?.clear()
-    })
+    this.stop = () => clearEffect()
 
     applyEffect()
-    this.timeout = addTimeout(this, () => stop(), duration)
     return { status: RESPONSE_STATUS.SUCCESS, timeRemaining: duration }
   }
 }

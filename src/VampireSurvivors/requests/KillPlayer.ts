@@ -1,8 +1,9 @@
 import { CrowdControlInstantEffectRequest, RESPONSE_STATUS } from '../../CrowdControl'
-import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsGameState'
+import type { ICrowdControlInstantEffectRequest } from '../../CrowdControl/requests/CrowdControlInstantEffectRequest'
+import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsState'
 import { EFFECT_CODES } from './EffectCodes'
 
-export class KillPlayer extends CrowdControlInstantEffectRequest {
+export class KillPlayer extends CrowdControlInstantEffectRequest implements ICrowdControlInstantEffectRequest {
   static override code = EFFECT_CODES.KILL_PLAYER
   static override conflicts = [EFFECT_CODES.INVULNERABLE]
 

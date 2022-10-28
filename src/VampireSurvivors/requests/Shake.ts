@@ -1,10 +1,11 @@
 import { CrowdControlInstantEffectRequest, RESPONSE_STATUS } from '../../CrowdControl'
-import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsGameState'
+import type { ICrowdControlInstantEffectRequest } from '../../CrowdControl/requests/CrowdControlInstantEffectRequest'
+import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsState'
 import { EFFECT_CODES } from './EffectCodes'
 
 const SHAKE_DURATION = 5000
 let lastShake = 0
-export class Shake extends CrowdControlInstantEffectRequest {
+export class Shake extends CrowdControlInstantEffectRequest implements ICrowdControlInstantEffectRequest {
   static override code = EFFECT_CODES.SHAKE
   override code = Shake.code
 

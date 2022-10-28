@@ -2,13 +2,13 @@ import { log } from './CrowdControl'
 
 import {
   bootstrap,
-  intro,
+  initGame,
   VampireSurvivorsGame,
   VampireSurvivorsGameInitEventDetails,
   VampireSurvivorsPhaserInitEventDetails,
 } from './VampireSurvivors'
 import { version } from './VampireSurvivors/bootstrap'
-import { init } from './VampireSurvivors'
+import { initIntro } from './VampireSurvivors/VampireSurvivorsIntro'
 
 const isGameInitEvent = (event: Event): event is CustomEvent<VampireSurvivorsGameInitEventDetails> => {
   return 'detail' in event && 'EnemyGroupClass' in (event as CustomEvent).detail
@@ -20,11 +20,11 @@ const isPhaserInitEvent = (event: Event): event is CustomEvent<VampireSurvivorsP
 
 const onGameInit = ({ data, EnemyGroupClass: EnemiesGroupClass }: VampireSurvivorsGameInitEventDetails) => {
   const { GM: Game } = data
-  init(Game, EnemiesGroupClass)
+  initGame(Game, EnemiesGroupClass)
   // VampireSurvivorsCrowdControl.writeGameDataToJSON()
 }
 
-const onPhaserInit = (Game: VampireSurvivorsGame) => intro(Game)
+const onPhaserInit = (Game: VampireSurvivorsGame) => initIntro(Game)
 
 const launch = async () => {
   // Add the script tag to load the actual game

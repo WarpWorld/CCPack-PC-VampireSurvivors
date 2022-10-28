@@ -1,45 +1,54 @@
-import {
-  getIsGameOverSceneActive,
-  getIsGamePaused,
-  getIsUIMainMenuSceneActive,
-  getIsMainSceneActive,
-  getIsPostGameSceneActive,
-} from './VampireSurvivorsGameState'
-import { destroy, getIsPaused, pause, resume } from './VampireSurvivorsEffectCollection'
-import { viewerNameMonitor } from './VampireSurvivorViewerNameMonitor'
+import { log } from '../CrowdControl'
+import { getIsGamePaused, getIsPostGameSceneActive, getIsUIMainMenuSceneActive } from './VampireSurvivorsState'
 
-let active = false
+export const VampireSurvivorStateMonitorEventTypes = {
+  GAME_PAUSED: 'GAME_PAUSED',
+  GAME_RESUMED: 'GAME_RESUMED',
+  GAME_ENDED: 'GAME_ENDED',
+} as const
+export class VampireSurvivorStateMonitor extends EventTarget {
+  private intervalID?: ReturnType<typeof setInterval>
+  private _paused: boolean = false
+  private _gameEnded: boolean = false
 
-let intervalID: ReturnType<typeof setInterval>
-const stop = () => {
-  active = false
-  clearInterval(intervalID)
-}
+  public start() {
+    if (this.intervalID) return
 
-const monitorState = () => {
-  const isGamePaused = getIsGamePaused()
-  const areTimedEffectsPaused = getIsPaused()
-  const isUIMainMenuSceneActive = getIsUIMainMenuSceneActive()
-  const isPostGameSceneActive = getIsPostGameSceneActive()
-
-  if (isGamePaused && !areTimedEffectsPaused) {
-    pause()
-  } else if (!isGamePaused && areTimedEffectsPaused) {
-    resume()
+    const me = this
+    this.intervalID = setInterval(() => me.onTick(), 10)
   }
 
-  if (active && (isUIMainMenuSceneActive || isPostGameSceneActive)) {
-    destroy()
-    stop()
-    viewerNameMonitor.stop()
+  public stop() {
+    clearInterval(this.intervalID)
+    this.intervalID = undefined
   }
-}
 
-export const stateMonitor = {
-  start() {
-    stop()
-    active = true
-    intervalID = setInterval(monitorState, 100)
-  },
-  stop,
+  public reset() {
+    this._gameEnded = false
+    this.stop()
+    this.start()
+  }
+
+  protected onTick = () => {
+    const isGamePaused = getIsGamePaused()
+    const isUIMainMenuSceneActive = getIsUIMainMenuSceneActive()
+    const isPostGameSceneActive = getIsPostGameSceneActive()
+
+    if (isGamePaused && !this._paused) {
+      log('StateMonitor: Game Paused')
+      this._paused = true
+      this.dispatchEvent(new Event(VampireSurvivorStateMonitorEventTypes.GAME_PAUSED))
+    } else if (!isGamePaused && this._paused) {
+      log('StateMonitor: Game Resumed')
+      this._paused = false
+      this.dispatchEvent(new Event(VampireSurvivorStateMonitorEventTypes.GAME_RESUMED))
+    }
+
+    if (!this._gameEnded && (isUIMainMenuSceneActive || isPostGameSceneActive)) {
+      log('StateMonitor: Game Ended')
+      this._gameEnded = true
+      this.dispatchEvent(new Event(VampireSurvivorStateMonitorEventTypes.GAME_ENDED))
+      this.stop()
+    }
+  }
 }

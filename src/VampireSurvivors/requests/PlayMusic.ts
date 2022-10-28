@@ -1,9 +1,10 @@
 import { CrowdControlInstantEffectRequest, RESPONSE_STATUS } from '../../CrowdControl'
+import type { ICrowdControlInstantEffectRequest } from '../../CrowdControl/requests/CrowdControlInstantEffectRequest'
 
-import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsGameState'
+import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsState'
 import { EFFECT_CODES } from './EffectCodes'
 
-export class PlayMusic extends CrowdControlInstantEffectRequest {
+export class PlayMusic extends CrowdControlInstantEffectRequest implements ICrowdControlInstantEffectRequest {
   static override code = EFFECT_CODES.PLAY_MUSIC
   override code = PlayMusic.code
 

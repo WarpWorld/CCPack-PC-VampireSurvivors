@@ -1,8 +1,11 @@
 import { CrowdControlTimedEffectRequest, RESPONSE_STATUS } from '../../../CrowdControl'
-import { getGame, getIsGamePaused, getIsPlayerDead } from '../../VampireSurvivorsGameState'
-import { addTimeout } from '../../VampireSurvivorsEffectCollection'
+import type { ICrowdControlTimedEffectRequest } from '../../../CrowdControl/requests/CrowdControlTimedEffectRequest'
+import { getGame, getIsGamePaused, getIsPlayerDead } from '../../VampireSurvivorsState'
 
-export abstract class ChangePlayerSpeedEffectRequest extends CrowdControlTimedEffectRequest {
+export abstract class ChangePlayerSpeedEffectRequest
+  extends CrowdControlTimedEffectRequest
+  implements ICrowdControlTimedEffectRequest
+{
   static IS_ACTIVE = false
   speed = 0
 
@@ -16,23 +19,22 @@ export abstract class ChangePlayerSpeedEffectRequest extends CrowdControlTimedEf
     if (isGamePaused || ChangePlayerSpeedEffectRequest.IS_ACTIVE) return { status: RESPONSE_STATUS.RETRY }
 
     const clearEffect = () => {
-      Game.Core.Player.moveSpeed = 1
+      if (Game.Core.Player.$originalSpeed) {
+        Game.Core.Player.moveSpeed = Game.Core.Player.$originalSpeed
+        delete Game.Core.Player.$originalSpeed
+      }
       ChangePlayerSpeedEffectRequest.IS_ACTIVE = false
     }
 
     const applyEffect = () => {
+      Game.Core.Player.$originalSpeed = Game.Core.Player.moveSpeed
       Game.Core.Player.moveSpeed = this.speed
       ChangePlayerSpeedEffectRequest.IS_ACTIVE = true
     }
 
-    let timeout: ReturnType<typeof addTimeout> | undefined
-    const stop = (this.stop = () => {
-      clearEffect()
-      this.timeout?.clear()
-    })
+    this.stop = () => clearEffect()
 
     applyEffect()
-    this.timeout = addTimeout(this, () => stop(), duration)
     return { status: RESPONSE_STATUS.SUCCESS, timeRemaining: duration }
   }
 }

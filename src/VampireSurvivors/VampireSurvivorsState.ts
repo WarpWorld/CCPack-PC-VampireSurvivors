@@ -6,12 +6,13 @@ import type {
   VampireSurvivorsViewerEnemyGroup,
 } from '.'
 
-import { clearAll } from './VampireSurvivorsEffectCollection'
-
 let Game: VampireSurvivorsGame | undefined
 let EnemyGroupClass: VampireSurvivorsEnemyGroupClass | undefined
 let viewerEnemyGroups: VampireSurvivorsViewerEnemyGroup[] = []
 
+/* -------------------------------------------------------------------------- */
+/*                                State Getters                               */
+/* -------------------------------------------------------------------------- */
 export const getGame = () => Game
 export const getEnemyGroupClass = () => EnemyGroupClass
 export const getViewerEnemyGroups = () => viewerEnemyGroups
@@ -37,32 +38,26 @@ export const pruneViewerEnemyGroups = () => (viewerEnemyGroups = viewerEnemyGrou
 
 // Helper function to target all enemies currently on the screen
 export const getAllVisibleEnemies = () => {
-  const enemies: VampireSurvivorsEnemy[] = []
-  Game?.Core.Stage.pools.forEach((p) =>
+  const enemies = new Set<VampireSurvivorsEnemy>()
+
+  const pools = [
+    ...(Game?.Core.Stage.pools || []),
+    ...(Game?.Core.Stage.bossPools || []),
+    ...viewerEnemyGroups.filter((g) => !!g.$boss),
+  ]
+
+  pools.forEach((p) =>
     p.children?.entries?.forEach((c) => {
       if (c.isDead) return
-      enemies.push(c)
+      enemies.add(c)
     })
   )
 
-  viewerEnemyGroups.forEach((g) => {
-    if (!g.$boss) return
-    g.children?.entries?.forEach((c) => {
-      if (c.isDead) return
-      enemies.push(c)
-    })
-  })
-
-  return enemies
+  return Array.from(enemies)
 }
 
-const reset = () => {
-  viewerEnemyGroups = []
-  clearAll()
-}
-
-export const init = (game: VampireSurvivorsGame, enemyGroupClass: VampireSurvivorsEnemyGroupClass) => {
+export const reset = (game: VampireSurvivorsGame, enemyGroupClass: VampireSurvivorsEnemyGroupClass) => {
   Game = game
   EnemyGroupClass = enemyGroupClass
-  reset()
+  viewerEnemyGroups = []
 }

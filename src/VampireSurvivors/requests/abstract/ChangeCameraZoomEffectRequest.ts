@@ -1,8 +1,11 @@
 import { CrowdControlTimedEffectRequest, RESPONSE_STATUS } from '../../../CrowdControl'
-import { getGame, getIsGamePaused, getIsPlayerDead } from '../../VampireSurvivorsGameState'
-import { addTimeout } from '../../VampireSurvivorsEffectCollection'
+import { getGame, getIsGamePaused, getIsPlayerDead } from '../../VampireSurvivorsState'
+import type { ICrowdControlTimedEffectRequest } from '../../../CrowdControl/requests/CrowdControlTimedEffectRequest'
 
-export abstract class ChangeCameraZoomEffectRequest extends CrowdControlTimedEffectRequest {
+export abstract class ChangeCameraZoomEffectRequest
+  extends CrowdControlTimedEffectRequest
+  implements ICrowdControlTimedEffectRequest
+{
   static IS_ACTIVE = false
   zoom = 1
 
@@ -25,13 +28,9 @@ export abstract class ChangeCameraZoomEffectRequest extends CrowdControlTimedEff
       ChangeCameraZoomEffectRequest.IS_ACTIVE = true
     }
 
-    const stop = (this.stop = () => {
-      clearEffect()
-      this.timeout?.clear()
-    })
+    this.stop = () => clearEffect()
 
     applyEffect()
-    this.timeout = addTimeout(this, () => stop(), duration)
     return { status: RESPONSE_STATUS.SUCCESS, timeRemaining: duration }
   }
 }

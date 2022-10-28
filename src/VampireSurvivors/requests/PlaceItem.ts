@@ -1,9 +1,10 @@
 import { CrowdControlInstantEffectRequest, randomFromRange, randomSign, RESPONSE_STATUS } from '../../CrowdControl'
-import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsGameState'
+import type { ICrowdControlInstantEffectRequest } from '../../CrowdControl/requests/CrowdControlInstantEffectRequest'
+import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsState'
 import { TEXT_COLORS } from '../VampireSurvivorsTextColors'
 import { EFFECT_CODES } from './EffectCodes'
 
-export class PlaceItem extends CrowdControlInstantEffectRequest {
+export class PlaceItem extends CrowdControlInstantEffectRequest implements ICrowdControlInstantEffectRequest {
   static override code = EFFECT_CODES.PLACE_ITEM
   override code = PlaceItem.code
 

@@ -1,9 +1,9 @@
 import { CrowdControlTimedEffectRequest, RESPONSE_STATUS } from '../../CrowdControl'
-import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsGameState'
-import { addTimeout } from '../VampireSurvivorsEffectCollection'
+import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsState'
 import { EFFECT_CODES } from './EffectCodes'
+import type { ICrowdControlTimedEffectRequest } from '../../CrowdControl/requests/CrowdControlTimedEffectRequest'
 
-export class Invulnerable extends CrowdControlTimedEffectRequest {
+export class Invulnerable extends CrowdControlTimedEffectRequest implements ICrowdControlTimedEffectRequest {
   static override code = EFFECT_CODES.INVULNERABLE
   override code = Invulnerable.code
 
@@ -28,13 +28,9 @@ export class Invulnerable extends CrowdControlTimedEffectRequest {
       })
     }
 
-    const stop = (this.stop = () => {
-      clearEffect()
-      this.timeout?.clear()
-    })
+    this.stop = () => clearEffect()
 
     applyEffect()
-    this.timeout = addTimeout(this, () => stop(), duration)
     return { status: RESPONSE_STATUS.SUCCESS, timeRemaining: duration }
   }
 }

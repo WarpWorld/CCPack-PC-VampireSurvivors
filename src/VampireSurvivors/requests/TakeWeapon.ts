@@ -1,8 +1,9 @@
 import { CrowdControlInstantEffectRequest, RESPONSE_STATUS } from '../../CrowdControl'
-import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsGameState'
+import type { ICrowdControlInstantEffectRequest } from '../../CrowdControl/requests/CrowdControlInstantEffectRequest'
+import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsState'
 import { EFFECT_CODES } from './EffectCodes'
 
-export class TakeWeapon extends CrowdControlInstantEffectRequest {
+export class TakeWeapon extends CrowdControlInstantEffectRequest implements ICrowdControlInstantEffectRequest {
   static override code = EFFECT_CODES.TAKE_WEAPON
   override code = TakeWeapon.code
 
@@ -20,7 +21,7 @@ export class TakeWeapon extends CrowdControlInstantEffectRequest {
     const weapon = Game.Core.Weapons.find((weapon) => weapon.bulletType === weaponID)
     if (!weapon) return { status: RESPONSE_STATUS.FAILURE }
 
-    const isDowngrade = weapon.level > 1
+    this.overlayPrefix = weapon.level > 1 ? 'Downgrade' : ''
     Game.Core.RemoveWeapon(weaponID) //remove the weapon, we'll always need to do this
 
     setTimeout(() => {
@@ -37,6 +38,6 @@ export class TakeWeapon extends CrowdControlInstantEffectRequest {
       }
     }, 10)
 
-    return { status: RESPONSE_STATUS.SUCCESS, meta: isDowngrade ? { overlayPrefix: 'Downgrade' } : undefined }
+    return { status: RESPONSE_STATUS.SUCCESS }
   }
 }

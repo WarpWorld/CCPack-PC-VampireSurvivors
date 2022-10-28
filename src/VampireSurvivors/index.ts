@@ -1,7 +1,7 @@
 import type internal from 'stream'
 
 export { bootstrap } from './bootstrap'
-export * from './VampireSurvivorsCrowdControl'
+export * from './VampireSurvivorsGame'
 
 /* -------------------------------------------------------------------------- */
 /*                           Vampire Survivors Types                          */
@@ -51,12 +51,15 @@ export type VampireSurvivorsScene = {
 }
 
 type VampireSurvivorsPhaserEntity = {
+  $originalScale?: number
+  $originalSpeed?: number
   x: number
   y: number
   scale: number
   displayWidth: number
   displayHeight: number
   depth: number
+  visible: boolean
   removeFromDisplayList: () => void
   setDepth: (depth: number) => void
   destroy: () => void
@@ -68,12 +71,15 @@ type VampireSurvivorsPhaserEntity = {
 }
 
 export type VampireSurvivorsEnemy = VampireSurvivorsPhaserEntity & {
-  $originalScale?: number
-  $originalSpeed?: number
   speed: number
   isDead: boolean
   enemyType: string
   Die: () => void
+  OnRecycle: () => void
+  __proto__: {
+    Die: () => void
+    OnRecycle: () => void
+  }
 }
 
 export type VampireSurvivorsViewerEnemy = VampireSurvivorsEnemy & {
@@ -112,8 +118,8 @@ export type VampireSurvivorsGame = {
     LevelWeaponUp: (weapon: string) => void
     MakePickup: (x: number, y: number, item: string) => VampireSurvivorsPhaserEntity
     Weapons: {
-      bulletType: string,
-      level: number,
+      bulletType: string
+      level: number
       amount: number
     }[]
     GoldFever: {

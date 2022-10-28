@@ -1,4 +1,4 @@
-import type { CrowdControlEffectRequestBody } from '../CrowdControlWebsocketClient'
+import type { CrowdControlEffectRequestBody } from '../CrowdControlWebSocketClient'
 
 export abstract class CrowdControlBaseEffectRequest {
   static readonly code: string = '#UNSET#'
@@ -6,4 +6,5 @@ export abstract class CrowdControlBaseEffectRequest {
 
   constructor(readonly request: CrowdControlEffectRequestBody) {}
   abstract readonly code: string
+  overlayPrefix: string = ''
 }

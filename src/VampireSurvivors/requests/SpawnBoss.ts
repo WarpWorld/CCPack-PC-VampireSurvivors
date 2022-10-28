@@ -1,4 +1,5 @@
 import { CrowdControlInstantEffectRequest, RESPONSE_STATUS } from '../../CrowdControl'
+import type { ICrowdControlInstantEffectRequest } from '../../CrowdControl/requests/CrowdControlInstantEffectRequest'
 
 import {
   addViewerEnemyGroup,
@@ -6,10 +7,10 @@ import {
   getGame,
   getIsGamePaused,
   getIsPlayerDead,
-} from '../VampireSurvivorsGameState'
+} from '../VampireSurvivorsState'
 import { EFFECT_CODES } from './EffectCodes'
 
-export class SpawnBoss extends CrowdControlInstantEffectRequest {
+export class SpawnBoss extends CrowdControlInstantEffectRequest implements ICrowdControlInstantEffectRequest {
   static override code = EFFECT_CODES.SPAWN_BOSS
   override code = SpawnBoss.code
 

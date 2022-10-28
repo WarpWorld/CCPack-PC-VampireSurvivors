@@ -1,8 +1,9 @@
 import { CrowdControlInstantEffectRequest, RESPONSE_STATUS } from '../../CrowdControl'
-import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsGameState'
+import type { ICrowdControlInstantEffectRequest } from '../../CrowdControl/requests/CrowdControlInstantEffectRequest'
+import { getGame, getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsState'
 import { EFFECT_CODES } from './EffectCodes'
 
-export class GiveWeapon extends CrowdControlInstantEffectRequest {
+export class GiveWeapon extends CrowdControlInstantEffectRequest implements ICrowdControlInstantEffectRequest {
   static override code = EFFECT_CODES.GIVE_WEAPON
   override code = GiveWeapon.code
 
@@ -24,7 +25,8 @@ export class GiveWeapon extends CrowdControlInstantEffectRequest {
       Game.Core.LevelWeaponUp(weaponID)
 
       if (weapon.level > originalLevel) {
-        return { status: RESPONSE_STATUS.SUCCESS, meta: { overlayPrefix: 'Upgrade' } }
+        this.overlayPrefix = 'Upgrade'
+        return { status: RESPONSE_STATUS.SUCCESS }
       } else {
         return { status: RESPONSE_STATUS.FAILURE }
       }

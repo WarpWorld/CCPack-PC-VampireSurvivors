@@ -1,8 +1,9 @@
 import { CrowdControlInstantEffectRequest, RESPONSE_STATUS } from '../../CrowdControl'
-import { getGame, getIsGameOverSceneActive, getIsMainSceneActive } from '../VampireSurvivorsGameState'
+import type { ICrowdControlInstantEffectRequest } from '../../CrowdControl/requests/CrowdControlInstantEffectRequest'
+import { getGame, getIsGameOverSceneActive, getIsMainSceneActive } from '../VampireSurvivorsState'
 import { EFFECT_CODES } from './EffectCodes'
 
-export class GiveRevive extends CrowdControlInstantEffectRequest {
+export class GiveRevive extends CrowdControlInstantEffectRequest implements ICrowdControlInstantEffectRequest {
   static override code = EFFECT_CODES.GIVE_REVIVE
   override code = GiveRevive.code
 

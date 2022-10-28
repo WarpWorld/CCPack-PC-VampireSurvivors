@@ -1,10 +1,10 @@
 import { CrowdControlTimedEffectRequest, RESPONSE_STATUS } from '../../CrowdControl'
-import { getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsGameState'
-import { addTimeout } from '../VampireSurvivorsEffectCollection'
+import { getIsGamePaused, getIsPlayerDead } from '../VampireSurvivorsState'
 import { EFFECT_CODES } from './EffectCodes'
+import type { ICrowdControlTimedEffectRequest } from '../../CrowdControl/requests/CrowdControlTimedEffectRequest'
 
 const FLIP_TRANSFORM = 'scaleY(-1)'
-export class FlipGame extends CrowdControlTimedEffectRequest {
+export class FlipGame extends CrowdControlTimedEffectRequest implements ICrowdControlTimedEffectRequest {
   static override code = EFFECT_CODES.FLIP_GAME
   override code = FlipGame.code
 
@@ -34,17 +34,11 @@ export class FlipGame extends CrowdControlTimedEffectRequest {
       canvasEl.style.transform = transforms.join(' ')
     }
 
-    const stop = (this.stop = () => {
-      this.timeout?.clear()
-      clearFilter()
-    })
+    this.stop = () => clearFilter()
+    this.onPause = () => clearFilter()
+    this.onResume = () => applyFilter()
 
     applyFilter()
-    this.timeout = addTimeout(this, () => stop(), duration, {
-      onPause: () => clearFilter(),
-      onResume: () => applyFilter(),
-    })
-
     return { status: RESPONSE_STATUS.SUCCESS, timeRemaining: duration }
   }
 }

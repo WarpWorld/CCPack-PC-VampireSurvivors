@@ -4,12 +4,11 @@ import type { CrowdControlTimedEffectRequest } from './CrowdControlTimedEffectRe
 
 export { CrowdControlInstantEffectRequest } from './CrowdControlInstantEffectRequest'
 export { CrowdControlTimedEffectRequest } from './CrowdControlTimedEffectRequest'
-export * from './EffectRequestHandlers'
-export { getEffectRequestHandlers } from './EffectRequestHandlers'
+
+export type CrowdControlEffectRequest = CrowdControlTimedEffectRequest | CrowdControlInstantEffectRequest
 
 export type CrowdControlEffectClass = {
   new (...args: ConstructorParameters<typeof CrowdControlBaseEffectRequest>): CrowdControlEffectRequest
   code: string
   conflicts: string[]
 }
-export type CrowdControlEffectRequest = CrowdControlTimedEffectRequest | CrowdControlInstantEffectRequest

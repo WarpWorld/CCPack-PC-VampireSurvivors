@@ -1,9 +1,12 @@
 import { CrowdControlTimedEffectRequest, log, RESPONSE_STATUS } from '../../../CrowdControl'
-import { getAllVisibleEnemies, getGame, getIsGamePaused, getIsPlayerDead } from '../../VampireSurvivorsGameState'
-import { addTimeout } from '../../VampireSurvivorsEffectCollection'
+import { getAllVisibleEnemies, getGame, getIsGamePaused, getIsPlayerDead } from '../../VampireSurvivorsState'
 import type { VampireSurvivorsEnemy } from '../..'
+import type { ICrowdControlTimedEffectRequest } from '../../../CrowdControl/requests/CrowdControlTimedEffectRequest'
 
-export abstract class ChangeVisibleEnemiesScaleEffectRequest extends CrowdControlTimedEffectRequest {
+export abstract class ChangeVisibleEnemiesScaleEffectRequest
+  extends CrowdControlTimedEffectRequest
+  implements ICrowdControlTimedEffectRequest
+{
   static IS_ACTIVE = false
   ratio = 1
 
@@ -20,26 +23,44 @@ export abstract class ChangeVisibleEnemiesScaleEffectRequest extends CrowdContro
     const enemies = getAllVisibleEnemies()
     if (!enemies.length) return { status: RESPONSE_STATUS.RETRY }
 
-    const clearEffect = () => {
-      const enemies = getAllVisibleEnemies()
-      enemies.forEach((enemy) => {
-        enemy.scale = enemy.$originalScale || 1
+    const effectedEnemies = new Set<typeof enemies[number]>()
+
+    const resetEnemy = (enemy: VampireSurvivorsEnemy) => {
+      if (enemy.$originalScale) {
+        enemy.scale = enemy.$originalScale
         delete enemy.$originalScale
-      })
+      }
+
+      if (!enemy.$originalSpeed) {
+        enemy.Die = enemy.__proto__.Die
+        enemy.OnRecycle = enemy.__proto__.OnRecycle
+      }
+    }
+
+    const clearEffect = () => {
+      const enemies = Array.from(effectedEnemies)
+      enemies.forEach(resetEnemy)
 
       ChangeVisibleEnemiesScaleEffectRequest.IS_ACTIVE = false
     }
 
     const applyEffectToEnemy = (enemy: VampireSurvivorsEnemy) => {
       if (enemy.$originalScale) return
-      const Die = enemy.Die
+
+      const { Die, OnRecycle } = enemy
       enemy.Die = () => {
         Die.call(enemy)
+        resetEnemy(enemy)
+      }
+
+      enemy.OnRecycle = () => {
+        OnRecycle.call(enemy)
         delete enemy.$originalScale
       }
 
       enemy.$originalScale = enemy.scale
       enemy.scale *= this.ratio
+      effectedEnemies.add(enemy)
     }
 
     const applyEffect = () => {
@@ -52,16 +73,10 @@ export abstract class ChangeVisibleEnemiesScaleEffectRequest extends CrowdContro
       enemies.forEach(applyEffectToEnemy)
     }
 
-    const stop = (this.stop = () => {
-      clearEffect()
-      this.timeout?.clear()
-    })
+    this.stop = () => clearEffect()
+    this.onTick = () => updateEffect()
 
     applyEffect()
-    this.timeout = addTimeout(this, () => stop(), duration, {
-      onTick: () => updateEffect(),
-    })
-
     return { status: RESPONSE_STATUS.SUCCESS, timeRemaining: duration }
   }
 }
