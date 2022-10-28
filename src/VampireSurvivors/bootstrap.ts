@@ -1,7 +1,14 @@
 import { readFileSync } from 'fs'
 import { resolve, dirname } from 'path'
+import { log } from '../CrowdControl'
 const { origin, pathname } = new URL(import.meta.url)
 export const { version } = JSON.parse(readFileSync(resolve(__dirname, '..', '..', 'package.json')).toString())
+
+declare global {
+  interface Window {
+    VS_DEBUG?: boolean
+  }
+}
 
 type Patch = {
   debug?: boolean
@@ -9,7 +16,7 @@ type Patch = {
   inject: string
 }
 
-const IS_DEBUG = origin.includes('localhost')
+const IS_DEBUG = origin.includes('localhost') || window.VS_DEBUG
 const SOURCE_FILE = 'main.bundle.js'
 
 const loadOriginalGame = () => {
@@ -25,6 +32,7 @@ const writeGame = (code: string) => {
   scriptEl.text = `(() => {${code}})()`
   scriptEl.setAttribute('defer', 'true')
 
+  log('Writing Patched Script Tag', scriptEl)
   document.body.appendChild(scriptEl)
 }
 
@@ -52,7 +60,16 @@ export const bootstrap = async () => {
       patched = patched.replace(`${prefix}${suffix}`, `${prefix}${inject}${suffix}`)
     })
 
+    log('Preparing to write Patched Script Tag')
     requestAnimationFrame(() => writeGame(patched))
+
+    setTimeout(() => {
+      log('Bootstrap: checking for canvas')
+      const el = document.querySelector('#phaser-game canvas')
+
+      if (el) return
+      window.location.reload()
+    }, 2500)
     return { success: true }
   } catch (e) {
     const message = e instanceof Error ? e.message : 'Unknown Error'
