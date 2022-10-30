@@ -1,0 +1,24 @@
+[
+  {
+    "search": {
+      "prefix": "this['fancyBG'][_0x4af4e1(0x2cc)]())),this[_0x4af4e1(0x144a)]();",
+      "suffix": "}[_0x36cb2b(0x95b)]"
+    },
+    "inject": "dispatchEvent(new CustomEvent('game-init',{detail:{data:_0x1c9bf8,EnemyGroupClass:_0x13ebcd.default}}))"
+  },
+  {
+    "search": {
+      "prefix": "catch(_0x2210ad){_0x10f6a2['IPCRENDERER']=null;}",
+      "suffix": "}"
+    },
+    "inject": "dispatchEvent(new CustomEvent('phaser-init',{detail:{Info:_0x10f6a2}}))"
+  },
+  {
+    "debug": true,
+    "search": {
+      "prefix": "'OPEN_DEV_TOOLS':!0x1,",
+      "suffix": ""
+    },
+    "inject": "'OPEN_DEV_TOOLS':0x1,"
+  }
+]
