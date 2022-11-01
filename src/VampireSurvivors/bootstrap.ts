@@ -38,9 +38,12 @@ const writeGame = (code: string) => {
 
 export const bootstrap = async () => {
   try {
+    const now = Date.now()
     const dirName = dirname(pathname)
-    const patchURL = `${origin}${dirName}/${version.replace(/\./g, '_')}.json`
-    const response = await fetch(patchURL)
+    const patchURL = `${origin}${dirName}/${version.replace(/\./g, '_')}.json?time=${now}`
+    const response = await fetch(patchURL, {
+      cache: 'no-store',
+    })
 
     if (!response.ok) {
       loadOriginalGame()
