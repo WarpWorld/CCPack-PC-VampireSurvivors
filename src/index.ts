@@ -27,31 +27,31 @@ const onGameInit = ({ data, EnemyGroupClass: EnemiesGroupClass }: VampireSurvivo
 const onPhaserInit = (Game: VampireSurvivorsGame) => initIntro(Game)
 
 const launch = async () => {
-  // Add the script tag to load the actual game
-  const { success, message } = await bootstrap()
   log(`VS v${version}. Bootstrap Loaded, waiting for init`)
 
-  if (success) {
-    // Wait for patched event to init
-    window.addEventListener('phaser-init', (e: Event) => {
-      if (!isPhaserInitEvent(e)) return
-      const { Info } = e.detail
-      const check = () => {
-        if (Info.GM.Core) {
-          onPhaserInit(Info.GM as VampireSurvivorsGame)
-        } else {
-          setTimeout(check, 100)
-        }
+  // Wait for patched event to init
+  window.addEventListener('phaser-init', (e: Event) => {
+    if (!isPhaserInitEvent(e)) return
+    const { Info } = e.detail
+    const check = () => {
+      if (Info.GM.Core) {
+        onPhaserInit(Info.GM as VampireSurvivorsGame)
+      } else {
+        setTimeout(check, 100)
       }
-      check()
-    })
+    }
+    check()
+  })
 
-    window.addEventListener('game-init', (e: Event) => {
-      if (!isGameInitEvent(e)) return
-      onGameInit(e.detail)
-      log(`VS v${version}. Initialized.`)
-    })
-  } else {
+  window.addEventListener('game-init', (e: Event) => {
+    if (!isGameInitEvent(e)) return
+    onGameInit(e.detail)
+    log(`VS v${version}. Initialized.`)
+  })
+
+  // Add the script tag to load the actual game
+  const { success, message } = await bootstrap()
+  if (!success) {
     log(`VS v${version}. Bootstrap Failed: ${message}`)
   }
 }

@@ -2,6 +2,7 @@ import typescript from '@rollup/plugin-typescript'
 import json from '@rollup/plugin-json'
 import { obfuscator } from 'rollup-obfuscator'
 import copy from 'rollup-plugin-copy'
+import html from 'rollup-plugin-html'
 
 const { PRODUCTION } = process.env
 const BASE_URL = PRODUCTION
@@ -19,6 +20,7 @@ const config = {
     format: 'cjs',
   },
   plugins: [
+    html(),
     copy({
       targets: [
         {
@@ -26,9 +28,13 @@ const config = {
           dest: 'dist/VampireSurvivors',
         },
         {
-          src: 'index.html',
+          src: 'src/index.html',
           dest: 'dist',
-          transform: (contents) => contents.toString().replace('{{BOOTSTRAP_FILE}}', `${BASE_URL}/${OUTPUT_FILENAME}`),
+          transform: (contents) =>
+            contents
+              .toString()
+              .replace('{{CROWD_CONTROL_SCRIPT}}', '')
+              .replace('{{BOOTSTRAP_FILE}}', `${BASE_URL}/${OUTPUT_FILENAME}`),
         },
       ],
     }),

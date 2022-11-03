@@ -1,24 +1,27 @@
-[
-  {
-    "search": {
-      "prefix": "this[_0x1bf1c2(0x964)][_0x1bf1c2(0xd6b)]())),this['SpawnBoss']();",
-      "suffix": "}['SpawnYellowItems']"
+{
+  "version": 1,
+  "patches": [
+    {
+      "search": {
+        "prefix": "this[_0x1bf1c2(0x964)][_0x1bf1c2(0xd6b)]())),this['SpawnBoss']();",
+        "suffix": "}['SpawnYellowItems']"
+      },
+      "inject": "dispatchEvent(new CustomEvent('game-init',{detail:{data:_0x583f74,EnemyGroupClass:_0x3aea2e.default}}))"
     },
-    "inject": "dispatchEvent(new CustomEvent('game-init',{detail:{data:_0x583f74,EnemyGroupClass:_0x3aea2e.default}}))"
-  },
-  {
-    "search": {
-      "prefix": "catch(_0x386a75){_0x50f0f1[_0x37812d(0x14e6)]=null;}",
-      "suffix": "}"
+    {
+      "search": {
+        "prefix": "catch(_0x386a75){_0x50f0f1[_0x37812d(0x14e6)]=null;}",
+        "suffix": "}"
+      },
+      "inject": "dispatchEvent(new CustomEvent('phaser-init',{detail:{Info:_0x50f0f1}}))"
     },
-    "inject": "dispatchEvent(new CustomEvent('phaser-init',{detail:{Info:_0x50f0f1}}))"
-  },
-  {
-    "debug": true,
-    "search": {
-      "prefix": "'OPEN_DEV_TOOLS':!0x1,",
-      "suffix": ""
-    },
-    "inject": "'OPEN_DEV_TOOLS':0x1,"
-  }
-]
+    {
+      "debug": true,
+      "search": {
+        "prefix": "'OPEN_DEV_TOOLS':!0x1,",
+        "suffix": ""
+      },
+      "inject": "'OPEN_DEV_TOOLS':0x1,"
+    }
+  ]
+}

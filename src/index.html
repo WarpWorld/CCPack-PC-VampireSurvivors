@@ -55,11 +55,19 @@
         font-weight: 400;
         font-weight: normal;
       }
+      #loading {
+        position: absolute;
+        font-family: 'Courier New', Courier, monospace;
+        bottom: 0%;
+        right: 0%;
+        padding: 0.25rem;
+        color: white;
+      }
     </style>
     <noscript>Please enable javascript to continue using this application.</noscript>
-    <!-- this can be copied locally and loaded or pulled remotely -->
-    <script src="{{BOOTSTRAP_FILE}}"></script>
+    {{CROWD_CONTROL_SCRIPT}}
     <script defer="defer" src="vendors.bundle.js"></script>
+    <script src="{{BOOTSTRAP_FILE}}"></script>
   </head>
   <body>
     <div style="font-family: fontANY; position: absolute; left: -1000px; visibility: hidden">.</div>
