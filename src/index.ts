@@ -6,6 +6,7 @@ import {
   VampireSurvivorsGame,
   VampireSurvivorsGameInitEventDetails,
   VampireSurvivorsPhaserInitEventDetails,
+  writeGameDataToJSON,
 } from './VampireSurvivors'
 import { version } from './VampireSurvivors/bootstrap'
 import { initIntro } from './VampireSurvivors/VampireSurvivorsIntro'
@@ -21,7 +22,7 @@ const isPhaserInitEvent = (event: Event): event is CustomEvent<VampireSurvivorsP
 const onGameInit = ({ data, EnemyGroupClass: EnemiesGroupClass }: VampireSurvivorsGameInitEventDetails) => {
   const { GM: Game } = data
   initGame(Game, EnemiesGroupClass)
-  // VampireSurvivorsCrowdControl.writeGameDataToJSON()
+  // writeGameDataToJSON()
 }
 
 const onPhaserInit = (Game: VampireSurvivorsGame) => initIntro(Game)
@@ -31,6 +32,7 @@ const launch = async () => {
 
   // Wait for patched event to init
   window.addEventListener('phaser-init', (e: Event) => {
+    log('phaser-init event received')
     if (!isPhaserInitEvent(e)) return
     const { Info } = e.detail
     const check = () => {
@@ -42,8 +44,9 @@ const launch = async () => {
     }
     check()
   })
-
+  
   window.addEventListener('game-init', (e: Event) => {
+    log('game-init event received')
     if (!isGameInitEvent(e)) return
     onGameInit(e.detail)
     log(`VS v${version}. Initialized.`)

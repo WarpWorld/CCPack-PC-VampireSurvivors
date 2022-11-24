@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "patches": [
+    {
+      "search": {
+        "prefix": "this['fancyBG']['Create']())),this['SpawnBoss']();",
+        "suffix": "}[_0x14224b(0x54c)]"
+      },
+      "inject": "dispatchEvent(new CustomEvent('game-init',{detail:{data:_0x285370,EnemyGroupClass:_0x308a42.default}}))"
+    },
+    {
+      "search": {
+        "prefix": "catch(_0x4d1980){_0x2ec09b[_0x27eae7(0x184)]=null;}",
+        "suffix": "}"
+      },
+      "inject": "dispatchEvent(new CustomEvent('phaser-init',{detail:{Info:_0x2ec09b}}))"
+    },
+    {
+      "debug": true,
+      "search": {
+        "prefix": "'OPEN_DEV_TOOLS':!0x1,",
+        "suffix": ""
+      },
+      "inject": "'OPEN_DEV_TOOLS':0x1,"
+    }
+  ]
+}
