@@ -5,7 +5,7 @@ import mkdirp from 'mkdirp'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
-const version = '1.1.104'
+const version = '1.2.114'
 
 const general = JSON.parse(readFileSync(resolve(__dirname, '..', 'data', `general.json`)))
 const enemyNames = JSON.parse(readFileSync(resolve(__dirname, '..', 'data', `enemy-names.json`)))
