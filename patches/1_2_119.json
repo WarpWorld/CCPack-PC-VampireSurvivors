@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "patches": [
+    {
+      "search": {
+        "prefix": "this['SpawnBoss']();",
+        "suffix": "}[_0x3c527b(0x1310)]()"
+      },
+      "inject": "dispatchEvent(new CustomEvent('game-init',{detail:{data:_0x100597,EnemyGroupClass:_0x85fb8d.default}}))"
+    },
+    {
+      "search": {
+        "prefix": "catch(_0x9e0661){_0x5d9767[_0x2fc4e8(0xf9a)]=null;}",
+        "suffix": "}"
+      },
+      "inject": "dispatchEvent(new CustomEvent('phaser-init',{detail:{Info:_0x5d9767}}))"
+    },
+    {
+      "debug": true,
+      "search": {
+        "prefix": "'OPEN_DEV_TOOLS':!0x1,",
+        "suffix": ""
+      },
+      "inject": "'OPEN_DEV_TOOLS':0x1,"
+    }
+  ]
+}
