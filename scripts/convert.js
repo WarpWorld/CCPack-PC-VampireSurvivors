@@ -36,7 +36,7 @@ namespace CrowdControl.Games.Packs
 
         public override Game Game { get; } = new(174, "Vampire Survivors", "VampireSurvivors", "PC", ConnectorType.SimpleWebsocketServerConnector);
 
-        public override List<Effect> Effects => new()
+        public override List<Effect> Effects { get; } = new()
         {`
 
 const footer = `
