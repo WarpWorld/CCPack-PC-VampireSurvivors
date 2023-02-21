@@ -2,5 +2,5 @@ bundles
 node_modules
 dist
 
-VampireSurvivors.cs
+#VampireSurvivors.cs
 VampireSurvivorsEffects.json
