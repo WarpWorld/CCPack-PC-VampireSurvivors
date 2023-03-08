@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System;using System.Collections.Generic;using System.Diagnostics.CodeAnalysis;
 using ConnectorLib.SimpleTCP;
 using CrowdControl.Common;
 
@@ -15,11 +13,11 @@ namespace CrowdControl.Games.Packs
         public override ushort Port => 43384;
         
         // Built with version 1.0.111
-        public VampireSurvivors(IPlayer player, Func<CrowdControlBlock, bool> responseHandler, Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler) { }
+        public VampireSurvivors(Player player, Func<CrowdControlBlock, bool> responseHandler, Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler) { }
 
         public override Game Game { get; } = new(174, "Vampire Survivors", "VampireSurvivors", "PC", ConnectorType.SimpleWebsocketServerConnector);
 
-        public override List<Effect> Effects => new()
+        public override EffectList Effects => new List<Effect>
         {
             // General Effects
             new("Blur", "blur") { Duration = TimeSpan.FromSeconds(30) },            new("Death Flash", "death_flash"),            new("Fast Enemies", "fast_enemies") { Duration = TimeSpan.FromSeconds(30) },            new("Flip Game", "flip_game") { Duration = TimeSpan.FromSeconds(30) },            new("Freeze Enemies", "freeze_enemies") { Duration = TimeSpan.FromSeconds(30) },            new("Giant Enemies", "giant_enemies") { Duration = TimeSpan.FromSeconds(30) },            new("Giant Player", "giant_player") { Duration = TimeSpan.FromSeconds(30) },            new("Give 50 HP", "give_health") { Description = "Give 50 HP to the player" },            new("Give Revive", "give_revive"),            new("Gold Fever", "gold_fever") { Duration = TimeSpan.FromSeconds(30), Description = "Enter Gold Fever mode" },            new("Invert Game", "invert_game") { Duration = TimeSpan.FromSeconds(30) },            new("Invulnerability", "set_invulnerable") { Duration = TimeSpan.FromSeconds(30) },            new("Kill Player", "kill_player"),            new("Punch", "punch") { Description = "Punch the player for 10 damage" },            new("Quicksand", "quicksand") { Duration = TimeSpan.FromSeconds(30) },            new("Refill Health", "fill_health"),            new("Shake", "shake"),            new("Slow Enemies", "slow_enemies") { Duration = TimeSpan.FromSeconds(30) },            new("Speed Boost", "speed_boost") { Duration = TimeSpan.FromSeconds(30) },            new("Take Revive", "take_revive"),            new("Tiny Enemies", "tiny_enemies") { Duration = TimeSpan.FromSeconds(30) },            new("Tiny Player", "tiny_player") { Duration = TimeSpan.FromSeconds(30) },            new("Zoom In", "zoom_in") { Duration = TimeSpan.FromSeconds(30) },            new("Zoom Out", "zoom_out") { Duration = TimeSpan.FromSeconds(30) },

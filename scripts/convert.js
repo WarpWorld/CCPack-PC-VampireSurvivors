@@ -32,11 +32,11 @@ namespace CrowdControl.Games.Packs
         public override ushort Port => 43384;
         
         // Built with version ${version}
-        public VampireSurvivors(IPlayer player, Func<CrowdControlBlock, bool> responseHandler, Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler) { }
+        public VampireSurvivors(Player player, Func<CrowdControlBlock, bool> responseHandler, Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler) { }
 
         public override Game Game { get; } = new(174, "Vampire Survivors", "VampireSurvivors", "PC", ConnectorType.SimpleWebsocketServerConnector);
 
-        public override List<Effect> Effects { get; } = new()
+        public override EffectList Effects { get; } = new Effect[]
         {`
 
 const footer = `
