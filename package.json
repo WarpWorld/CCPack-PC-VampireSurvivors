@@ -26,6 +26,7 @@
     "@types/node": "^18.11.3",
     "javascript-obfuscator": "^4.0.0",
     "mkdirp": "^1.0.4",
+    "prettier": "^2.8.7",
     "rollup": "^3.2.3",
     "rollup-obfuscator": "^3.0.1",
     "rollup-plugin-copy": "^3.4.0",

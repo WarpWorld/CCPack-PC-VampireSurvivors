@@ -3,7 +3,7 @@
     "moduleResolution": "node",
     "module": "ESNext",
     "target": "ES2020",
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "esModuleInterop": true,
