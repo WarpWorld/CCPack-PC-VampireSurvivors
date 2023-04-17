@@ -3,9 +3,9 @@ import { log } from './CrowdControl'
 import {
   bootstrap,
   initGame,
-  VampireSurvivorsGame,
-  VampireSurvivorsGameInitEventDetails,
-  VampireSurvivorsPhaserInitEventDetails,
+  type VampireSurvivorsGame,
+  type VampireSurvivorsGameInitEventDetails,
+  type VampireSurvivorsPhaserInitEventDetails,
   writeGameDataToJSON,
 } from './VampireSurvivors'
 import { version } from './VampireSurvivors/bootstrap'
@@ -44,7 +44,7 @@ const launch = async () => {
     }
     check()
   })
-  
+
   window.addEventListener('game-init', (e: Event) => {
     log('game-init event received')
     if (!isGameInitEvent(e)) return

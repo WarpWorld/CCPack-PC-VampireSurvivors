@@ -1,11 +1,9 @@
-import type internal from 'stream'
-
-export { bootstrap } from './bootstrap'
 export * from './VampireSurvivorsGame'
+export { bootstrap } from './bootstrap'
 
 /* -------------------------------------------------------------------------- */
 /*                           Vampire Survivors Types                          */
-/* -------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 export type VampireSurvivorsPhaserTweenConfig = {
   targets: VampireSurvivorsPhaserEntity | VampireSurvivorsPhaserEntity[]

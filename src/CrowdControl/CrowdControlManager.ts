@@ -1,7 +1,7 @@
 import { Timeout } from './CrowdControlTimeout'
 import {
-  CrowdControlEffectRequestBody,
-  CrowdControlEffectRequestResponse,
+  type CrowdControlEffectRequestBody,
+  type CrowdControlEffectRequestResponse,
   CrowdControlWebSocketClient,
   CrowdControlWebsocketEventTypes,
   EFFECT_REQUEST_TYPE,
