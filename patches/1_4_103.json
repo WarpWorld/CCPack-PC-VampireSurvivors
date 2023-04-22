@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "patches": [
+    {
+      "search": {
+        "prefix": "this[_0x2f8b00(0x16a6)]();",
+        "suffix": "}[_0x129984(0x7c2)]()"
+      },
+      "inject": "dispatchEvent(new CustomEvent('game-init',{detail:{data:_0x42e614,EnemyGroupClass:_0x108181.default}}))"
+    },
+    {
+      "search": {
+        "prefix": "catch(_0x355553){_0x251a01[_0x305f7f(0xf12)]=null;}",
+        "suffix": "}"
+      },
+      "inject": "dispatchEvent(new CustomEvent('phaser-init',{detail:{Info:_0x251a01}}))"
+    },
+    {
+      "debug": true,
+      "search": {
+        "prefix": "'OPEN_DEV_TOOLS':!0x1,",
+        "suffix": ""
+      },
+      "inject": "'OPEN_DEV_TOOLS':0x1,"
+    }
+  ]
+}
