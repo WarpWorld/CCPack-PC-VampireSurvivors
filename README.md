@@ -20,7 +20,7 @@
 7. Edit `scripts/convert.js` and update the `const version = 'x.y.zzz'` as needed
 8. Run `npm run convert` to generate a `json` and `cs` file.
 
-#Enable debugging
+# Enable debugging
 ```html
     <script>
       window.VS_DEBUG = true
