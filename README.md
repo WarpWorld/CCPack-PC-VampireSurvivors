@@ -1,8 +1,8 @@
 # Local Dev Instructions
 
 1. run `npm i` then `npm dev` in this repo. Then copy `index.html` to `[VampireSurvivorsInstall]\resources\app\.webpack\renderer\`
-2. run `npm run convert` to generate a new `dist/VampireSurvivors.cs`. Load this file up in the crowd control SDK; ensure that your SDK is running (as it will need to start the websocket server) prior to starting vampire survivors. 
-3. Start Vampire Survivors. 
+2. run `npm run convert` to generate a new `dist/VampireSurvivors.cs`. Load this file up in the crowd control SDK; ensure that your SDK is running (as it will need to start the websocket server) prior to starting vampire survivors.
+3. Start Vampire Survivors.
 
 # Production Build Instructions
 
